@@ -1,10 +1,10 @@
-import mysql from 'mysql';
+import { createConnection,Connection, MysqlError } from "mysql";
 
 export  class DatabaseConnection {
 
     private static _instance: DatabaseConnection;
 
-    cnn: mysql.Connection;
+    cnn: Connection;
 
     conectado: boolean = false;
 
@@ -12,7 +12,7 @@ export  class DatabaseConnection {
 
         console.log('DB starting');
 
-        this.cnn = mysql.createConnection({
+        this.cnn = createConnection({
             host: 'omni.cluster-crjgbytgvbtw.us-east-1.rds.amazonaws.com',
             user: 'admin',
             password: 'za7G*L%n8ngJ',
@@ -28,7 +28,7 @@ export  class DatabaseConnection {
 
     public static ejecutarQuery(query: string, callback: Function){
 
-        this.instance.cnn.query(query, (err, results: Object[], fields) => {
+        this.instance.cnn.query(query, (err:any, results: Object[], fields:any) => {
 
             if(err){
                 console.log('Error en la query');
@@ -48,7 +48,7 @@ export  class DatabaseConnection {
     }
 
     private conectarDB() {
-        this.cnn.connect((err: mysql.MysqlError) => {
+        this.cnn.connect((err: MysqlError) => {
 
             if (err) {
                 console.log(err.message);
