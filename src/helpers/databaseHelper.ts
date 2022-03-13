@@ -1,47 +1,65 @@
-import { createPool, Pool} from 'mysql';
+import mysql from 'mysql';
 
-let pool: Pool;
+export  class DatabaseConnection {
 
-/**
- * generates pool connection to be used throughout the app
- */
-export const init = () => {
-  try {
-    pool = createPool({
-      connectionLimit: 10,
-      host: 'omni.cluster-crjgbytgvbtw.us-east-1.rds.amazonaws.com',
-      user: 'admin',
-      password: 'za7G*L%n8ngJ',
-      database: 'omni'
-    });
+    private static _instance: DatabaseConnection;
 
-    console.debug('MySql Adapter Pool generated successfully');
-  } catch (error) {
-    console.error('[mysql.connector][init][Error]: ', error);
-    throw new Error('failed to initialized pool');
-  }
-};
+    cnn: mysql.Connection;
 
-/**
- * executes SQL queries in MySQL db
- *
- * @param {string} query - provide a valid SQL query
- * @param {string[] | Object} params - provide the parameterized values used
- * in the query
- */
-export const execute = <T>(query: string, params: string[] | Object): Promise<T> => {
-  try {
-    if (!pool) throw new Error('Pool was not created. Ensure pool is created when running the app.');
+    conectado: boolean = false;
 
-    return new Promise<T>((resolve, reject) => {
-      pool.query(query, params, (error, results) => {
-        if (error) reject(error);
-        else resolve(results);
-      });
-    });
+    constructor() {
 
-  } catch (error) {
-    console.error('[mysql.connector][execute][Error]: ', error);
-    throw new Error('failed to execute MySQL query');
-  }
+        console.log('DB starting');
+
+        this.cnn = mysql.createConnection({
+            host: 'omni.cluster-crjgbytgvbtw.us-east-1.rds.amazonaws.com',
+            user: 'admin',
+            password: 'za7G*L%n8ngJ',
+            database: 'omni'
+        });
+
+        this.conectarDB();
+    }
+
+    public static get instance(){
+        return this._instance || ( this._instance = new this());
+    }
+
+    public static ejecutarQuery(query: string, callback: Function){
+
+        this.instance.cnn.query(query, (err, results: Object[], fields) => {
+
+            if(err){
+                console.log('Error en la query');
+                console.log(err);
+                return callback(err);
+            }
+
+            if(results.length === 0){
+                return callback('El registro solicitado no existe');
+            }else{
+                return callback(null, results);
+            }
+
+            return callback(null, results);
+
+        });
+    }
+
+    private conectarDB() {
+        this.cnn.connect((err: mysql.MysqlError) => {
+
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+
+            this.conectado = true;
+            console.log('DB Online');
+
+        })
+    }
+
+
 }

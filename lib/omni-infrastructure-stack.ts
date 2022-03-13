@@ -54,7 +54,7 @@ export class OmniInfrastructureStack extends cdk.Stack {
 
         Object.keys(lambdas).forEach((lambdaFunctionKey: string) => {
             const lambdaFunction = lambdas[lambdaFunctionKey];
-            lambdaFunction.addToRolePolicy(getIAMPolicy(["dynamodb:*"]));
+            lambdaFunction.addToRolePolicy(getIAMPolicy(["rds:*"]));
         })
     }
 }
