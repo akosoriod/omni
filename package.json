@@ -1,0 +1,36 @@
+{
+  "name": "omni",
+  "version": "0.1.0",
+  "bin": {
+    "omni": "bin/omni.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.93",
+    "@types/jest": "^26.0.10",
+    "@types/mysql": "^2.15.21",
+    "@types/node": "10.17.27",
+    "aws-cdk": "2.14.0",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "^1.148.0",
+    "@aws-cdk/aws-codecommit": "^1.148.0",
+    "@aws-cdk/aws-lambda": "^1.148.0",
+    "@aws-cdk/aws-lambda-nodejs": "^1.148.0",
+    "@aws-cdk/core": "^1.148.0",
+    "@aws-cdk/pipelines": "^1.148.0",
+    "aws-cdk-lib": "2.14.0",
+    "constructs": "^10.0.0",
+    "mysql": "^2.18.1",
+    "source-map-support": "^0.5.16"
+  }
+}
