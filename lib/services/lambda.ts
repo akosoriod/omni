@@ -5,9 +5,7 @@ import * as apiGateway from "@aws-cdk/aws-apigateway";
 import {Resource} from "@aws-cdk/aws-apigateway/lib/resource";
 import * as cdk from "@aws-cdk/core";
 import * as lambda from "@aws-cdk/aws-lambda";
-import { MethodOptions } from "@aws-cdk/aws-apigateway";
-import * as ec2 from '@aws-cdk/aws-ec2';
-import { Vpc } from "@aws-cdk/aws-ec2";
+import { Vpc,SecurityGroup } from "@aws-cdk/aws-ec2";
 
 const handlersDirectoryPath = path.join(__dirname, `./../../src/handlers/`);
 
@@ -79,7 +77,7 @@ export const getNodeLambdaFunction =
             availabilityZones: ['us-east-1']
         });
         
-        const securityGroup = ec2.SecurityGroup.fromSecurityGroupId(
+        const securityGroup = SecurityGroup.fromSecurityGroupId(
             scope,
             "SG",
             "sg-7ae39260"
@@ -90,8 +88,8 @@ export const getNodeLambdaFunction =
             timeout: remainingProps?.timeout || cdk.Duration.seconds(60),
             runtime: lambda.Runtime.NODEJS_14_X,
             handler: remainingProps?.handler || 'handler',
+            vpc: DefaultVpc,
             securityGroup: securityGroup,
-           // vpc: DefaultVpc,
             entry: handlersDirectoryPath + handlerPathFromHandlers,
             environment: {...fixedEnvironmentVariables, ...remainingProps?.environment},
             bundling: {
