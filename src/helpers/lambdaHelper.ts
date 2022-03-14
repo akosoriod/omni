@@ -1,4 +1,5 @@
 import {APIGatewayProxyResult} from "aws-lambda";
+import {stringify} from 'flatted';
 
 export const getResponse = (
     {body, statusCode, error}: { body?: any, statusCode?: number, error?: any, badRequest?: boolean }

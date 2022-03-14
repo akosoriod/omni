@@ -1,65 +1,15 @@
-import { createConnection,Connection, MysqlError } from "mysql";
+import {  Connection } from "mysql2";
+import  * as mysql from "mysql2";
 
-export  class DatabaseConnection {
 
-    private static _instance: DatabaseConnection;
-
-    cnn: Connection;
-
-    conectado: boolean = false;
-
-    constructor() {
-
-        console.log('DB starting');
-
-        this.cnn = createConnection({
+export const pool = mysql.createPool({
             host: 'omni.cluster-crjgbytgvbtw.us-east-1.rds.amazonaws.com',
             user: 'admin',
             password: 'za7G*L%n8ngJ',
-            database: 'omni'
-        });
-
-        this.conectarDB();
-    }
-
-    public static get instance(){
-        return this._instance || ( this._instance = new this());
-    }
-
-    public static ejecutarQuery(query: string, callback: Function){
-
-        this.instance.cnn.query(query, (err:any, results: Object[], fields:any) => {
-
-            if(err){
-                console.log('Error en la query');
-                console.log(err);
-                return callback(err);
-            }
-
-            if(results.length === 0){
-                return callback('El registro solicitado no existe');
-            }else{
-                return callback(null, results);
-            }
-
-            return callback(null, results);
-
-        });
-    }
-
-    private conectarDB() {
-        this.cnn.connect((err: MysqlError) => {
-
-            if (err) {
-                console.log(err.message);
-                return;
-            }
-
-            this.conectado = true;
-            console.log('DB Online');
-
-        })
-    }
+            database: 'omni',
+            waitForConnections: true,
+            connectionLimit: 50,
+            queueLimit: 0
+          });
 
 
-}
