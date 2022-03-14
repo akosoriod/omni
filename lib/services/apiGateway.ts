@@ -2,6 +2,7 @@ import * as apiGateway from "@aws-cdk/aws-apigateway";
 import * as cdk from '@aws-cdk/core';
 import {EndpointType, SecurityPolicy} from "@aws-cdk/aws-apigateway";
 
+
 export const getApiGatewayResources = (scope: cdk.Construct, env: any, opt?: any) => {
     const restApi = new apiGateway.RestApi(scope, env.API_NAME, {
         restApiName: env.API_NAME,
@@ -14,6 +15,8 @@ export const getApiGatewayResources = (scope: cdk.Construct, env: any, opt?: any
             allowCredentials: true,
             allowOrigins: apiGateway.Cors.ALL_ORIGINS,
         },
+
+        
     });
 
 

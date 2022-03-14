@@ -2,10 +2,12 @@ import * as cdk from '@aws-cdk/core';
 import {getApiGatewayResources} from "./services/apiGateway";
 import { getIAMPolicy } from './services/iam';
 import {getLambdas} from "./services/lambda";
+import { Vpc, SecurityGroup } from "@aws-cdk/aws-ec2";
 
 export class OmniInfrastructureStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, env: any, props?: cdk.StackProps) {
         super(scope, id, props);
+
 
         const {
             restApi,
@@ -57,4 +59,10 @@ export class OmniInfrastructureStack extends cdk.Stack {
             lambdaFunction.addToRolePolicy(getIAMPolicy(["rds:*"]));
         })
     }
+
 }
+
+function self(self: any, arg1: string, arg2: { vpcId: string; }) {
+    throw new Error('Function not implemented.');
+}
+

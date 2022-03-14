@@ -5,6 +5,7 @@ import {OmniInfrastructureStack} from '../lib/omni-infrastructure-stack';
 import {envLocal, envDevelopment, envStaging, envMaster} from "./env";
 import {OmniPipelineStack} from "../lib/omni-pipeline-stack";
 
+
 const app = new cdk.App();
 
 // Defined only for local testing
@@ -56,5 +57,6 @@ new OmniPipelineStack(
     {
         env: envMaster.AWS_ENVIRONMENT
     });
+
 
 app.synth();
