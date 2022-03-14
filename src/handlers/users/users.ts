@@ -7,7 +7,7 @@ import { getResponse } from "../../helpers/lambdaHelper";
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     try {
         const username = event?.pathParameters?.username || '';
-        const query = `SELECT * FROM userssss`;
+        const query = `SELECT * FROM user`;
         DatabaseConnection.ejecutarQuery(query, (err: any, users: Object[]) => {
             if (err) {
                 return getResponse({
