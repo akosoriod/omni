@@ -11,7 +11,7 @@ const handlersDirectoryPath = path.join(__dirname, `./../../src/handlers/`);
 
 const getFunctionsForSynth = (
     allLambdas: { [key: string]: () => NodejsFunction },
-    onlySynth: string[]=[]
+    onlySynth: string[]
 ) => {
     let lambdasForSynth: { [key: string]: NodejsFunction } = {}
 

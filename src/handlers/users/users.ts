@@ -3,11 +3,43 @@ import { DatabaseConnection } from "../../helpers/databaseHelper";
 import { getResponse } from "../../helpers/lambdaHelper";
 
 
-export const handler: APIGatewayProxyHandler = (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => new Promise((resolve, reject) => {
-    // const id: string = event.pathParameters?.['id'] || '';
-    const query = `SELECT * FROM user`;
 
-    DatabaseConnection.ejecutarQuery(query, (err: any, users: Object[]) => {
+export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
+    try {
+        const username = event?.pathParameters?.username || '';
+        const query = `SELECT * FROM userssss`;
+        DatabaseConnection.ejecutarQuery(query, (err: any, users: Object[]) => {
+            if (err) {
+                return getResponse({
+                    statusCode: 400,
+                    body: {
+                        msg: 'Error',
+                        error: err
+                    }
+                })
+            } else {
+                return getResponse({
+                        statusCode: 200,
+                        body: {
+                            msg: 'successfull',
+                            item: users
+                        }
+                    })
+            }
+        });
+    
+        return getResponse({
+            statusCode: 200,
+            body: {
+                query
+            }
+        })
+    } catch (error) {
+        return getResponse({ error })
+    }
+
+}
+   /* DatabaseConnection.ejecutarQuery(query, (err: any, users: Object[]) => {
         if (err) {
             resolve(getResponse({
                 statusCode: 400,
@@ -30,14 +62,14 @@ export const handler: APIGatewayProxyHandler = (event: APIGatewayProxyEvent): Pr
         }
     });
 
-});
+});*/
   /*
 return getResponse({
-    statusCode: 200,
-    body: {
-        msg:'Tested',
-        item:res
-    }
+  statusCode: 200,
+  body: {
+      msg:'Tested',
+      item:res
+  }
 })
  
  
@@ -49,17 +81,17 @@ FROM heroes`;
 
 MySQL.ejecutarQuery(query, (err:any, heroes: Object[]) => {
 if(err){
-    res.status(400).json({
-        ok: false,
-        err: {
-            err
-        }
-    })
+  res.status(400).json({
+      ok: false,
+      err: {
+          err
+      }
+  })
 }else{
-    res.json({
-        ok:true,
-        heroes
-    });
+  res.json({
+      ok:true,
+      heroes
+  });
 }
 });
 
@@ -75,17 +107,17 @@ WHERE ID =${escapedID}`;
 
 MySQL.ejecutarQuery(query, (err:any, heroe: Object[]) => {
 if(err){
-    res.status(400).json({
-        ok: false,
-        err: {
-            err
-        }
-    })
+  res.status(400).json({
+      ok: false,
+      err: {
+          err
+      }
+  })
 }else{
-    res.json({
-        ok:true,
-        heroe: heroe[0]
-    });
+  res.json({
+      ok:true,
+      heroe: heroe[0]
+  });
 }
 });
 */
