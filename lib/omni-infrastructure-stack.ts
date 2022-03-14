@@ -11,7 +11,7 @@ export class OmniInfrastructureStack extends cdk.Stack {
         const defaultVpc = Vpc.fromVpcAttributes(this, 'vpc-520f6d2f', {
             vpcId: 'vpc-520f6d2f',
             availabilityZones: ['us-east-1a','us-east-1b','us-east-1c','us-east-1d','us-east-1e','us-east-1f'],
-            publicSubnetIds: ['subnet-322889881075','subnet-322889881075','subnet-322889881075','subnet-322889881075', 'subnet-322889881075','subnet-322889881075']
+            publicSubnetIds: ['subnet-2e6e8862','subnet-af86d5f0','subnet-f78cda91','subnet-8f3c60ae', 'subnet-d13da7e0','subnet-e2d3dbec']
         });
         
         const securityGroup = SecurityGroup.fromSecurityGroupId(
