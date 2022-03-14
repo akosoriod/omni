@@ -5,7 +5,7 @@ import * as apiGateway from "@aws-cdk/aws-apigateway";
 import {Resource} from "@aws-cdk/aws-apigateway/lib/resource";
 import * as cdk from "@aws-cdk/core";
 import * as lambda from "@aws-cdk/aws-lambda";
-import { Vpc,SecurityGroup } from "@aws-cdk/aws-ec2";
+import { Vpc,SecurityGroup, SubnetType } from "@aws-cdk/aws-ec2";
 
 const handlersDirectoryPath = path.join(__dirname, `./../../src/handlers/`);
 
@@ -67,29 +67,23 @@ export const getNodeLambdaFunction =
          baseRoute: apiGateway.Resource,
          method: string,
          path?: string,
-     }
+     },
+     defaultVpc?: Vpc,
+     securityGroup?: SecurityGroup   
     ) => {
         const fixedEnvironmentVariables = {
             PROJECT_ENVIRONMENT: env.PROJECT_ENVIRONMENT
         }
-        const DefaultVpc = Vpc.fromVpcAttributes(scope, 'default', {
-            vpcId: 'vpc-520f6d2f',
-            availabilityZones: ['us-east-1']
-        });
-        
-        const securityGroup = SecurityGroup.fromSecurityGroupId(
-            scope,
-            "SG",
-            "sg-7ae39260"
-          );
+
         const lambdaFunction = new NodejsFunction(scope, functionName, {
             functionName: `${env.PROJECT_NAME}-V${env.PROJECT_VERSION}-${functionName}-${env.PROJECT_ENVIRONMENT}`,
             memorySize: remainingProps?.memorySize || 128,
             timeout: remainingProps?.timeout || cdk.Duration.seconds(60),
             runtime: lambda.Runtime.NODEJS_14_X,
             handler: remainingProps?.handler || 'handler',
-            vpc: DefaultVpc,
+            vpc: defaultVpc,
             securityGroup: securityGroup,
+            allowPublicSubnet:true,
             entry: handlersDirectoryPath + handlerPathFromHandlers,
             environment: {...fixedEnvironmentVariables, ...remainingProps?.environment},
             bundling: {
@@ -122,7 +116,7 @@ export const getNodeLambdaFunction =
 export const getLambdas = (
     stack: cdk.Construct,
     env: any,
-    opt: any
+    opt: any,
 ): { [key: string]: NodejsFunction } => {
     
 
@@ -136,7 +130,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.signinRoute, path: '', method: "POST"}
+        {baseRoute: opt.routes.signinRoute, path: '', method: "POST"},
+        opt.defaultVpc,
+        opt.securityGroup        
     );
 
     const logout = () => getNodeLambdaFunction(
@@ -150,6 +146,8 @@ export const getLambdas = (
             }
         },
         {baseRoute: opt.routes.logoutRoute, path: '', method: "POST"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
     const getNotification = () => getNodeLambdaFunction(
         stack,
@@ -161,7 +159,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.notificationRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.notificationRoute, path: '', method: "GET"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
 
     const createNotification = () => getNodeLambdaFunction(
@@ -175,6 +175,8 @@ export const getLambdas = (
             }
         },
         {baseRoute: opt.routes.notificationRoute, path: '', method: "POST"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
 // Users
     const users = () => getNodeLambdaFunction(
@@ -187,7 +189,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.usersRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.usersRoute, path: '', method: "GET"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
 
     const getUser = () => getNodeLambdaFunction(
@@ -200,7 +204,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.userRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.userRoute, path: '', method: "GET"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
     const createUser = () => getNodeLambdaFunction(
         stack,
@@ -212,7 +218,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.userRoute, path: '', method: "POST"}
+        {baseRoute: opt.routes.userRoute, path: '', method: "POST"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
     const editUser = () => getNodeLambdaFunction(
         stack,
@@ -224,7 +232,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.userRoute, path: '', method: "PUT"}
+        {baseRoute: opt.routes.userRoute, path: '', method: "PUT"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
     const deleteUser = () => getNodeLambdaFunction(
         stack,
@@ -236,7 +246,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.userRoute, path: '', method: "DELETE"}
+        {baseRoute: opt.routes.userRoute, path: '', method: "DELETE"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
 
 // Orders
@@ -250,7 +262,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.ordersRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.ordersRoute, path: '', method: "GET"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
 
     const getOrder = () => getNodeLambdaFunction(
@@ -263,7 +277,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.orderRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.orderRoute, path: '', method: "GET"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
     const createOrder = () => getNodeLambdaFunction(
         stack,
@@ -275,7 +291,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.orderRoute, path: '', method: "POST"}
+        {baseRoute: opt.routes.orderRoute, path: '', method: "POST"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
     const editOrder = () => getNodeLambdaFunction(
         stack,
@@ -287,7 +305,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.orderRoute, path: '', method: "PUT"}
+        {baseRoute: opt.routes.orderRoute, path: '', method: "PUT"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
     const deleteOrder = () => getNodeLambdaFunction(
         stack,
@@ -299,7 +319,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.orderRoute, path: '', method: "DELETE"}
+        {baseRoute: opt.routes.orderRoute, path: '', method: "DELETE"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
 
 //  Products
@@ -313,7 +335,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.productsRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.productsRoute, path: '', method: "GET"},
+        opt.defaultVpc,
+        opt.securityGroup  
     );
 
     const getProduct = () => getNodeLambdaFunction(
@@ -326,7 +350,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.productRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.productRoute, path: '', method: "GET"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const createProduct = () => getNodeLambdaFunction(
         stack,
@@ -338,7 +364,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.productRoute, path: '', method: "POST"}
+        {baseRoute: opt.routes.productRoute, path: '', method: "POST"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const editProduct = () => getNodeLambdaFunction(
         stack,
@@ -350,7 +378,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.productRoute, path: '', method: "PUT"}
+        {baseRoute: opt.routes.productRoute, path: '', method: "PUT"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const deleteProduct = () => getNodeLambdaFunction(
         stack,
@@ -362,7 +392,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.productRoute, path: '', method: "DELETE"}
+        {baseRoute: opt.routes.productRoute, path: '', method: "DELETE"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
 
 // Shipments
@@ -376,7 +408,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.shipmentsRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.shipmentsRoute, path: '', method: "GET"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
 
     const getShipment = () => getNodeLambdaFunction(
@@ -389,7 +423,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.shipmentRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.shipmentRoute, path: '', method: "GET"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const createShipment = () => getNodeLambdaFunction(
         stack,
@@ -401,7 +437,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.shipmentRoute, path: '', method: "POST"}
+        {baseRoute: opt.routes.shipmentRoute, path: '', method: "POST"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const editShipment = () => getNodeLambdaFunction(
         stack,
@@ -413,7 +451,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.shipmentRoute, path: '', method: "PUT"}
+        {baseRoute: opt.routes.shipmentRoute, path: '', method: "PUT"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const deleteShipment = () => getNodeLambdaFunction(
         stack,
@@ -425,7 +465,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.shipmentRoute, path: '', method: "DELETE"}
+        {baseRoute: opt.routes.shipmentRoute, path: '', method: "DELETE"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
 
 // Payments
@@ -439,7 +481,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.paymentsRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.paymentsRoute, path: '', method: "GET"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const getPayment = () => getNodeLambdaFunction(
         stack,
@@ -451,7 +495,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.paymentRoute, path: '', method: "GET"}
+        {baseRoute: opt.routes.paymentRoute, path: '', method: "GET"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const createPayment = () => getNodeLambdaFunction(
         stack,
@@ -463,7 +509,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.paymentRoute, path: '', method: "POST"}
+        {baseRoute: opt.routes.paymentRoute, path: '', method: "POST"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const editPayment = () => getNodeLambdaFunction(
         stack,
@@ -475,7 +523,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.paymentRoute, path: '', method: "PUT"}
+        {baseRoute: opt.routes.paymentRoute, path: '', method: "PUT"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
     const deletePayment = () => getNodeLambdaFunction(
         stack,
@@ -487,7 +537,9 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.paymentRoute, path: '', method: "DELETE"}
+        {baseRoute: opt.routes.paymentRoute, path: '', method: "DELETE"},
+                opt.defaultVpc,
+        opt.securityGroup  
     );
 
 const allLambdas: { [key: string]: () => NodejsFunction } = {
