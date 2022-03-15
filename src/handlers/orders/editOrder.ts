@@ -4,7 +4,7 @@ import { Order } from "../../entities/order";
 
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
-    const id: string =  event.pathParameters?.userId || '';
+    const id: string =  event.pathParameters?.orderId || '';
     const { user_id,status,total} = JSON.parse(event.body || '{}');
     const order = new Order({user_id,status,total});
     const res = await order.edit(id);

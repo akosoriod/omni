@@ -4,7 +4,7 @@ import { Payment } from "../../entities/payment";
 
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
-    const id: string = event.pathParameters?.['id'] || '';
+    const id: string = event.pathParameters?.paymentId || '';
     const payment = await Payment.getPayment(id);
     if (payment.hasOwnProperty("error")) {
             return getResponse({

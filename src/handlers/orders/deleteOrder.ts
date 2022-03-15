@@ -5,7 +5,7 @@ import { Order } from "../../entities/order";
 
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
-    const id: string = event.pathParameters?.['id'] || '';
+    const id: string = event.pathParameters?.orderId || '';
     const order = await Order.delete(id);
     if (order.hasOwnProperty("error")) {
             return getResponse({

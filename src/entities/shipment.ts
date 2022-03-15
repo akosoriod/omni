@@ -2,6 +2,7 @@ import { IShipment } from "../interfaces/IShipment";
 import { pool } from "../helpers/databaseHelper";
 import { Notification } from "./notification";
 import { INotification } from "../interfaces/INotification";
+import { getvalue } from "../helpers/utilsHelper";
 
 
 const TableName = process.env.TABLE_NAME || "";
@@ -37,10 +38,11 @@ export class Shipment implements IShipment {
                 this.date,
                     id
                 ]);
+                console.log(rows[0]);
             if(this.status == "sent"){
                 const rows = await promisePool.execute('SELECT o.user_id FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ',[])
-                console.log(rows);
-                console.log(rows[0]);
+                const user_id=getvalue(rows[0],"user_id");
+                console.log(user_id);
                 const notification = new Notification({user_id: 1,shipment_id: +id,detail:"your order has been shipped"});
                 notification.create();
             }
@@ -62,6 +64,7 @@ export class Shipment implements IShipment {
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('DELETE FROM `shipment` WHERE (`id` = ?)', [id]);
+            console.log(rows[0]);
             return {msg:"Shipment deleted"};
         } catch (error) {
             return { error: error }
@@ -72,7 +75,7 @@ export class Shipment implements IShipment {
 
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT s.id, s.status, op.order_id, op.product_id, op.shipment_id, op.quantity, op.price FROM `shipment` s join `order_product` op on op.shipment_id=s.id LIMIT ?,?', [start, number]);
+            const rows = await promisePool.execute('SELECT shipment.id, shipment.status, order_product.order_id, order_product.product_id, order_product.shipment_id, order_product.quantity, order_product.price FROM `shipment` s JOIN `order_product` ON order_product.shipment_id=shipment.id LIMIT ?,?', [start, number]);
             return rows[0];
         } catch (error) {
             return { error: error }
