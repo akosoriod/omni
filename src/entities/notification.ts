@@ -17,7 +17,7 @@ export class Notification implements INotification {
     create = async (): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('INSERT INTO `notification` (`user_id`,`notification_id`,`detail`) VALUES (?,?)',
+            const rows = await promisePool.execute('INSERT INTO `notification` (`user_id`,`shipment_id`,`detail`) VALUES (?,?,?)',
                 [
                     this.user_id,
                     this.shipment_id,

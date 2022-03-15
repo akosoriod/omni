@@ -1,8 +1,8 @@
 import { IShipment } from "../interfaces/IShipment";
 import { pool } from "../helpers/databaseHelper";
 import { Notification } from "./notification";
+import { getValue,affectedRows } from "../helpers/utilsHelper";
 import { INotification } from "../interfaces/INotification";
-import { getvalue } from "../helpers/utilsHelper";
 
 
 const TableName = process.env.TABLE_NAME || "";
@@ -38,15 +38,19 @@ export class Shipment implements IShipment {
                 this.date,
                     id
                 ]);
-                console.log(rows[0]);
             if(this.status == "sent"){
-                const rows = await promisePool.execute('SELECT o.user_id FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ',[])
-                const user_id=getvalue(rows[0],"user_id");
-                console.log(user_id);
-                const notification = new Notification({user_id: 1,shipment_id: +id,detail:"your order has been shipped"});
+                const rows = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ',[])
+                const userId = await getValue(rows,'user_id')
+                const params:INotification = {user_id:userId, shipment_id:+id, detail:"your order has been shipped"}
+                console.log(params);
+                const notification = new Notification({user_id:userId, shipment_id:+id, detail:"your order has been shipped"});
                 notification.create();
             }
-            return {msg:"Shipment updated"};
+            if(await affectedRows(rows)){
+              return {msg:"Shipment updated"};
+            }else{
+              return {msg:"Shipment failed to update"};
+            }
         } catch (error) {
             return { error: error }
         }

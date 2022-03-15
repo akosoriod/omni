@@ -11,11 +11,14 @@ export class Order implements IOrder {
     user_id: number;
     status: string;
     total: number;
+    products: Array<any>;
 
     constructor(props: IOrder) {
         this.user_id = props.user_id;
         this.status = props.status;
         this.total = props.total;
+        this.products = props.products;
+        
     }
 
     create = async (): Promise<any> => {
@@ -27,6 +30,19 @@ export class Order implements IOrder {
                     this.status,
                     this.total,
                 ]);
+                console.log(rows)
+           /* for (let product in this.products){
+               if(product.quantity > 1) {
+                   product.price = product.price*quantity
+               }
+                const rows = await promisePool.execute('INSERT INTO `order_product` (`order_id`,`product_id`,`quantity`,`price`) VALUES (?,?)',
+                [
+                    order_id,
+                    product.id,
+                    product.quantity,
+                    product.price.total,
+                ]);
+            }*/
             return {msg:"Order created"};
         } catch (error) {
             return { error: error }

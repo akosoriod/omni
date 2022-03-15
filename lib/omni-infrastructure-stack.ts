@@ -45,11 +45,7 @@ export class OmniInfrastructureStack extends cdk.Stack {
             this,
             env,
             {
-                onlySynth: [        "shipments",
-                    "getShipment",
-                    "createShipment",
-                    "editShipment",
-                    "deleteShipment"],
+                onlySynth: [],
                 routes: {
                     restApi,
                     versionRoute,
