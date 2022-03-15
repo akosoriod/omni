@@ -1,5 +1,5 @@
 export interface IPayment {
-    stattus: string;
+    status: string;
     payment_method: string;
-    amount: string;
+    amount: number;
 }
