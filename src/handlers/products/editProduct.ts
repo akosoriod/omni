@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult, Callback, Context } from "aws-lambda"; 
 import { getResponse } from "../../helpers/lambdaHelper";
-import { Product } from "../../entities/Product";
+import { Product } from "../../entities/product";
+
 
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {

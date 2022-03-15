@@ -1,4 +1,4 @@
-import * as cdk from '@aws-cdk/core';
+ import * as cdk from '@aws-cdk/core';
 import {getApiGatewayResources} from "./services/apiGateway";
 import { getIAMPolicy } from './services/iam';
 import {getLambdas} from "./services/lambda";

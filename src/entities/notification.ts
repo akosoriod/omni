@@ -62,7 +62,7 @@ export class Notification implements INotification {
         }
     }
 
-    static getnotifications = async (start: string, number: string): Promise<any> => {
+    static getNotifications = async (start: string, number: string): Promise<any> => {
 
         try {
             const promisePool = pool.promise();

@@ -149,10 +149,10 @@ export const getLambdas = (
         opt.defaultVpc,
         opt.securityGroup  
     );
-    const getNotification = () => getNodeLambdaFunction(
+    const notifications = () => getNodeLambdaFunction(
         stack,
-        "getNotification",
-        "notifications/getNotification.ts",
+        "notifications",
+        "notifications/notifications.ts",
         env,
         {
             environment: {
@@ -164,20 +164,6 @@ export const getLambdas = (
         opt.securityGroup  
     );
 
-    const createNotification = () => getNodeLambdaFunction(
-        stack,
-        "createNotification",
-        "notifications/createNotification.ts",
-        env,
-        {
-            environment: {
-                TABLE_NAME: env.TABLE_NAME,
-            }
-        },
-        {baseRoute: opt.routes.notificationRoute, path: '', method: "POST"},
-        opt.defaultVpc,
-        opt.securityGroup  
-    );
 // Users
     const users = () => getNodeLambdaFunction(
         stack,
@@ -545,8 +531,7 @@ export const getLambdas = (
 const allLambdas: { [key: string]: () => NodejsFunction } = {
         signin,
         logout,
-        getNotification,
-        createNotification,
+        notifications,
         users,
         getUser,
         createUser,

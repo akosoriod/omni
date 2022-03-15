@@ -5,7 +5,7 @@ import { Payment } from "../../entities/payment";
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     const id: string = event.pathParameters?.['id'] || '';
-    const payment = await Payment.delete(id);
+    const payment = await Payment.getPayment(id);
     if (payment.hasOwnProperty("error")) {
             return getResponse({
             statusCode: 400,

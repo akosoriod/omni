@@ -72,7 +72,7 @@ export class Shipment implements IShipment {
 
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT s.id, s.status, op.order_id, op.product_id, op.shipment_id, op.quantity, op.price FROM `shipment` s join order_product op on op.shipment_id=s.id LIMIT ?,?', [start, number]);
+            const rows = await promisePool.execute('SELECT s.id, s.status, op.order_id, op.product_id, op.shipment_id, op.quantity, op.price FROM `shipment` s join `order_product` op on op.shipment_id=s.id LIMIT ?,?', [start, number]);
             return rows[0];
         } catch (error) {
             return { error: error }
