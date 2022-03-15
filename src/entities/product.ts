@@ -2,6 +2,7 @@ import { IProduct } from "../interfaces/IProduct";
 import { pool } from "../helpers/databaseHelper";
 import { Notification } from "./notification";
 import { INotification } from "../interfaces/INotification";
+import { getResponseValue } from "../helpers/utilsHelper";
 
 
 const TableName = process.env.TABLE_NAME || "";
@@ -24,7 +25,11 @@ export class Product implements IProduct {
                     this.name,
                     this.price,
                 ]);
-            return {msg:"Product created"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return await Product.getProduct(await getResponseValue(rows, "insertId"));
+            } else {
+                return { msg: "Product failed to create" };
+            }
         } catch (error) {
             return { error: error }
         }
@@ -37,7 +42,11 @@ export class Product implements IProduct {
                 this.price,
                     id
                 ]);
-            return {msg:"Product updated"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return await Product.getProduct(await getResponseValue(rows, "insertId"));
+            } else {
+                return { msg: "Product failed to update" };
+            }
         } catch (error) {
             return { error: error }
         }
@@ -55,7 +64,11 @@ export class Product implements IProduct {
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('DELETE FROM `product` WHERE (`id` = ?)', [id]);
-            return {msg:"Product deleted"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return { msg: "Product deleted" };
+            } else {
+                return { msg: "Product failed to delete" };
+            }
         } catch (error) {
             return { error: error }
         }

@@ -1,4 +1,4 @@
-
+import { User } from "../src/entities/user";
 
 
 const userInput = {
@@ -13,7 +13,10 @@ function sum(a:number, b:number) {
   }
   module.exports = sum;
 
-
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
-});
+/*
+test('001 - create user', () => {
+    const newUser = new User (userInput);
+    newUser.create();
+    const user = User.getUser(newUser.id)
+    expect((user).toBe(userInput);
+});*/

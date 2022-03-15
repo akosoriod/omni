@@ -2,6 +2,8 @@ import { IPayment } from "../interfaces/IPayment";
 import { pool } from "../helpers/databaseHelper";
 import { Notification } from "./notification";
 import { INotification } from "../interfaces/INotification";
+import { Shipment } from "./shipment";
+import { getResponseValue } from "../helpers/utilsHelper";
 
 
 const TableName = process.env.TABLE_NAME || "";
@@ -11,23 +13,36 @@ export class Payment implements IPayment {
     status: string;
     payment_method: string;
     amount: number;
+    order_id: number;
 
     constructor(props: IPayment) {
         this.status = props.status;
         this.payment_method = props.payment_method;
         this.amount = props.amount
+        this.order_id = props.order_id
     }
 
     create = async (): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('INSERT INTO `payment` (`status`,`payment_method`,`amount`) VALUES (?,?)',
+            const rows = await promisePool.execute('INSERT INTO `payment` (`status`,`payment_method`,`amount`) VALUES (?,?,?)',
                 [
                     this.status,
                     this.payment_method,
                     this.amount,
                 ]);
-            return {msg:"Payment created"};
+
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                const payment_id = await getResponseValue(rows, "insertId")
+                await promisePool.execute('INSERT INTO `order_payment` (`order_id`,`payment_id`) VALUES (?,?)',
+                    [
+                        this.order_id,
+                        payment_id,
+                    ]);
+                return await Payment.getPayment(await getResponseValue(rows, "insertId"));
+            } else {
+                return { msg: "Payment failed to create" };
+            }
         } catch (error) {
             return { error: error }
         }
@@ -41,7 +56,11 @@ export class Payment implements IPayment {
                 this.amount,
                     id
                 ]);
-            return {msg:"Payment updated"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return await Payment.getPayment(await getResponseValue(rows, "insertId"));
+            } else {
+                return { msg: "Payment failed to update" };
+            }
         } catch (error) {
             return { error: error }
         }
@@ -59,7 +78,11 @@ export class Payment implements IPayment {
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('DELETE FROM `payment` WHERE (`id` = ?)', [id]);
-            return {msg:"Payment deleted"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return { msg: "Payment deleted" };
+            } else {
+                return { msg: "Payment failed to delete" };
+            }
         } catch (error) {
             return { error: error }
         }

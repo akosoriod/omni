@@ -1,7 +1,7 @@
 import { IShipment } from "../interfaces/IShipment";
 import { pool } from "../helpers/databaseHelper";
 import { Notification } from "./notification";
-import { getValue,affectedRows } from "../helpers/utilsHelper";
+import { getResponseValue, getRowsValue } from "../helpers/utilsHelper";
 import { INotification } from "../interfaces/INotification";
 
 
@@ -25,7 +25,11 @@ export class Shipment implements IShipment {
                     this.status,
                     this.date,
                 ]);
-            return {msg:"Shipment created"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return await Shipment.getShipment(await getResponseValue(rows, "insertId"));
+            } else {
+                return { msg: "Shipment failed to create" };
+            }
         } catch (error) {
             return { error: error }
         }
@@ -38,18 +42,22 @@ export class Shipment implements IShipment {
                 this.date,
                     id
                 ]);
-            if(this.status == "sent"){
-                const rows = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ',[])
-                const userId = await getValue(rows,'user_id')
-                const params:INotification = {user_id:userId, shipment_id:+id, detail:"your order has been shipped"}
-                console.log(params);
-                const notification = new Notification({user_id:userId, shipment_id:+id, detail:"your order has been shipped"});
-                notification.create();
-            }
-            if(await affectedRows(rows)){
-              return {msg:"Shipment updated"};
-            }else{
-              return {msg:"Shipment failed to update"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                if (this.status == "sent") {
+                    const rows = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ', [])
+                    const userId = await getRowsValue(rows, 'user_id')
+                    const notification = new Notification({ user_id: userId, shipment_id: +id, detail: "Your order has been shipped" });
+                    notification.create();
+                }
+                if (this.status == "received") {
+                    const rows = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ', [])
+                    const userId = await getRowsValue(rows, 'user_id')
+                    const notification = new Notification({ user_id: userId, shipment_id: +id, detail: "You have received your order" });
+                    notification.create();
+                }
+                return await Shipment.getShipment(await getResponseValue(rows, "insertId"));
+            } else {
+                return { msg: "Shipment failed to update" };
             }
         } catch (error) {
             return { error: error }
@@ -69,7 +77,11 @@ export class Shipment implements IShipment {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('DELETE FROM `shipment` WHERE (`id` = ?)', [id]);
             console.log(rows[0]);
-            return {msg:"Shipment deleted"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return { msg: "Shipment deleted" };
+            } else {
+                return { msg: "Shipment failed to deleted" };
+            }
         } catch (error) {
             return { error: error }
         }

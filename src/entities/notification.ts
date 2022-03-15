@@ -1,5 +1,6 @@
 import { INotification } from "../interfaces/INotification";
 import { pool } from "../helpers/databaseHelper";
+import { getResponseValue } from "../helpers/utilsHelper";
 
 
 
@@ -56,7 +57,11 @@ export class Notification implements INotification {
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('DELETE FROM `notification` WHERE (`id` = ?)', [id]);
-            return {msg:"Notification deleted"};
+            if(await getResponseValue(rows,"affectedRows") == 1){
+                return {msg:"Notification deleted"};
+            }else{
+                return {msg:"Notification failed to delete"};
+              }
         } catch (error) {
             return { error: error }
         }

@@ -1,5 +1,6 @@
 import { IUser } from "../interfaces/IUser";
 import { pool } from "../helpers/databaseHelper";
+import { getResponseValue } from "../helpers/utilsHelper";
 
 
 export class User implements IUser {
@@ -25,7 +26,11 @@ export class User implements IUser {
                     this.address,
                     this.password
                 ]);
-            return {msg:"User created"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return await User.getUser(await getResponseValue(rows, "insertId"));
+            } else {
+                return { msg: "User failed to create" };
+            }
         } catch (error) {
             return { error: error }
         }
@@ -40,7 +45,11 @@ export class User implements IUser {
                 this.password,
                     id
                 ]);
-            return {msg:"User updated"};
+                if (await getResponseValue(rows, "affectedRows") == 1) {
+                    return await User.getUser(await getResponseValue(rows, "insertId"));
+                } else {
+                    return { msg: "User failed to update" };
+                }
         } catch (error) {
             return { error: error }
         }
@@ -58,7 +67,11 @@ export class User implements IUser {
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('DELETE FROM `user` WHERE (`id` = ?)', [id]);
-            return {msg:"User deleted"};
+            if (await getResponseValue(rows, "affectedRows") == 1) {
+                return { msg: "User deleted" };
+            } else {
+                return { msg: "User failed to delete" };
+            }
         } catch (error) {
             return { error: error }
         }
