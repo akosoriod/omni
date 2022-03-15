@@ -5,19 +5,19 @@ import { Shipment } from "../../entities/shipment";
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     const id: string = event.pathParameters?.['id'] || '';
-    const user = await Shipment.delete(id);
-    if (user.hasOwnProperty("error")) {
+    const shipment = await Shipment.delete(id);
+    if (shipment.hasOwnProperty("error")) {
             return getResponse({
             statusCode: 400,
             body: {
-                error: user.error
+                error: shipment.error
             }
         })
     } else {
         return getResponse({
             statusCode: 200,
             body: {
-                user
+                shipment
             }
         })
     } 
