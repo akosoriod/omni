@@ -2,9 +2,6 @@ import { IUser } from "../interfaces/IUser";
 import { pool } from "../helpers/databaseHelper";
 
 
-const TableName = process.env.TABLE_NAME || "";
-const RosterApi = process.env.ROSTER_API || "";
-
 export class User implements IUser {
     name: string;
     email: string;
@@ -28,7 +25,7 @@ export class User implements IUser {
                     this.address,
                     this.password
                 ]);
-            return rows[0];
+            return {msg:"User created"};
         } catch (error) {
             return { error: error }
         }
@@ -43,7 +40,7 @@ export class User implements IUser {
                 this.password,
                     id
                 ]);
-            return rows[0];
+            return {msg:"User updated"};
         } catch (error) {
             return { error: error }
         }
@@ -61,13 +58,13 @@ export class User implements IUser {
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('DELETE FROM `user` WHERE (`id` = ?)', [id]);
-            return rows[0];
+            return {msg:"User deleted"};
         } catch (error) {
             return { error: error }
         }
     }
 
-    static getusers = async (start: string, number: string): Promise<any> => {
+    static getUsers = async (start: string, number: string): Promise<any> => {
 
         try {
             const promisePool = pool.promise();

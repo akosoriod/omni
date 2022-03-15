@@ -218,7 +218,7 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.userRoute, path: '', method: "POST"},
+        {baseRoute: opt.routes.usersRoute, path: 'new', method: "POST"},
         opt.defaultVpc,
         opt.securityGroup  
     );
@@ -291,7 +291,7 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.orderRoute, path: '', method: "POST"},
+        {baseRoute: opt.routes.ordersRoute, path: 'new', method: "POST"},
         opt.defaultVpc,
         opt.securityGroup  
     );
@@ -364,7 +364,7 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.productRoute, path: '', method: "POST"},
+        {baseRoute: opt.routes.productsRoute, path: 'new', method: "POST"},
                 opt.defaultVpc,
         opt.securityGroup  
     );
@@ -437,7 +437,7 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.shipmentRoute, path: '', method: "POST"},
+        {baseRoute: opt.routes.shipmentsRoute, path: 'new', method: "POST"},
                 opt.defaultVpc,
         opt.securityGroup  
     );
@@ -509,7 +509,7 @@ export const getLambdas = (
                 TABLE_NAME: env.TABLE_NAME,
             }
         },
-        {baseRoute: opt.routes.paymentRoute, path: '', method: "POST"},
+        {baseRoute: opt.routes.paymentsRoute, path: 'new', method: "POST"},
                 opt.defaultVpc,
         opt.securityGroup  
     );

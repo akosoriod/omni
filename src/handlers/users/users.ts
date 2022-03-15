@@ -5,7 +5,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     const start: string = event.queryStringParameters?.start || '1';
     const number: string = event.queryStringParameters?.number || '10';
 
-    const users = await User.getusers(start, number);
+    const users = await User.getUsers(start, number);
     if (users.hasOwnProperty("error")) {
             return getResponse({
             statusCode: 400,

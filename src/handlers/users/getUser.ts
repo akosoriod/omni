@@ -4,7 +4,7 @@ import { User } from "../../entities/user";
 
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
-    const id: string = event.pathParameters?.['id'] || '';
+    const id: string = event.pathParameters?.userId || '';
     const user = await User.getUser(id);
     if (user.hasOwnProperty("error")) {
             return getResponse({
