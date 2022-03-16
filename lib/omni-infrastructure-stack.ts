@@ -13,7 +13,8 @@ export class OmniInfrastructureStack extends cdk.Stack {
 
         const {password} = getSecrets(this, env);
         env.DB_PASSWORD = password;
-
+        console.log("----------------------------------------------------------------------");
+        console.log(env.DB_PASSWORD);
         const defaultVpc = Vpc.fromVpcAttributes(this, 'vpc', {
             vpcId: env.VPC_ID,
             availabilityZones: env.AVAILABILITY_ZONES,
@@ -23,7 +24,7 @@ export class OmniInfrastructureStack extends cdk.Stack {
         const securityGroup = SecurityGroup.fromSecurityGroupId(
             this,
             "SG",
-            env.SEGURITYGROUPID
+            env.SEGURITY_GROUP_ID
           );
 
         const {
@@ -81,7 +82,5 @@ export class OmniInfrastructureStack extends cdk.Stack {
 
 }
 
-function self(self: any, arg1: string, arg2: { vpcId: string; }) {
-    throw new Error('Function not implemented.');
-}
+
 

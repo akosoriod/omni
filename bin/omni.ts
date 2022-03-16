@@ -2,7 +2,7 @@
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import {OmniInfrastructureStack} from '../lib/omni-infrastructure-stack';
-import {envLocal, envDevelopment, envStaging, envMaster} from "./env";
+import {envDevelopment} from "./env";
 import {OmniPipelineStack} from "../lib/omni-pipeline-stack";
 
 
