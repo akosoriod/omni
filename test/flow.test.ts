@@ -53,9 +53,9 @@ test('001 - FlowTest', async () => {
   orderInput.products[1].id = product2_id;
   const order = new Order(orderInput);
   order.create();
-
+  const order_id = await getResponseValue(order, "id");
   const promisePool = pool.promise();
-  const rows = await promisePool.execute('INSERT INTO `order` (`user_id`,`status`) VALUES (?,?)',[])
-
-  //  expect((user).toBe(userInput);
+  const totalQuery = await promisePool.execute('SELECT total FROM `order` WHERE (`id` = ?)', [id]);
+  const total:number = await getResponseValue(totalQuery, "total")
+   expect(total==Total_oden).toBe(true);
 });
