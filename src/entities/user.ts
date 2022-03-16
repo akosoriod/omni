@@ -29,7 +29,7 @@ export class User implements IUser {
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 return await User.getUser(await getResponseValue(rows, "insertId"));
             } else {
-                return { msg: "User failed to create" };
+                return { error: "User failed to create" };
             }
         } catch (error) {
             return { error: error }
@@ -46,9 +46,9 @@ export class User implements IUser {
                     id
                 ]);
                 if (await getResponseValue(rows, "affectedRows") == 1) {
-                    return await User.getUser(await getResponseValue(rows, "insertId"));
+                    return await User.getUser(id);
                 } else {
-                    return { msg: "User failed to update" };
+                    return { error: "User failed to update" };
                 }
         } catch (error) {
             return { error: error }
@@ -70,7 +70,7 @@ export class User implements IUser {
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 return { msg: "User deleted" };
             } else {
-                return { msg: "User failed to delete" };
+                return { error: "User failed to delete" };
             }
         } catch (error) {
             return { error: error }

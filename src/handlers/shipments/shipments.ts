@@ -4,7 +4,7 @@ import { Shipment } from "../../entities/shipment";
 
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
-    const start: string = event.queryStringParameters?.start || '1';
+    const start: string = event.queryStringParameters?.start || '0';
     const number: string = event.queryStringParameters?.number || '10';
     const shipments = await Shipment.getShipments(start, number);
     if (shipments.hasOwnProperty("error")) {

@@ -28,7 +28,7 @@ export class Shipment implements IShipment {
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 return await Shipment.getShipment(await getResponseValue(rows, "insertId"));
             } else {
-                return { msg: "Shipment failed to create" };
+                return { error: "Shipment failed to create" };
             }
         } catch (error) {
             return { error: error }
@@ -37,27 +37,27 @@ export class Shipment implements IShipment {
     edit = async (id: string): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('UPDATE `shipment` SET `status` = ?, `date` = ? WHERE (`id` = ?)',
+            const rows1 = await promisePool.execute('UPDATE `shipment` SET `status` = ?, `date` = ? WHERE (`id` = ?)',
                 [this.status,
                 this.date,
                     id
                 ]);
-            if (await getResponseValue(rows, "affectedRows") == 1) {
+            if (await getResponseValue(rows1, "affectedRows") == 1) {
                 if (this.status == "sent") {
-                    const rows = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ', [])
-                    const userId = await getRowsValue(rows, 'user_id')
+                    const rows2 = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ', [])
+                    const userId = await getRowsValue(rows2, 'user_id')
                     const notification = new Notification({ user_id: userId, shipment_id: +id, detail: "Your order has been shipped" });
                     notification.create();
                 }
                 if (this.status == "received") {
-                    const rows = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ', [])
-                    const userId = await getRowsValue(rows, 'user_id')
+                    const rows3 = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ', [])
+                    const userId = await getRowsValue(rows3, 'user_id')
                     const notification = new Notification({ user_id: userId, shipment_id: +id, detail: "You have received your order" });
                     notification.create();
                 }
-                return await Shipment.getShipment(await getResponseValue(rows, "insertId"));
+                return await Shipment.getShipment(id);
             } else {
-                return { msg: "Shipment failed to update" };
+                return { error: "Shipment failed to update" };
             }
         } catch (error) {
             return { error: error }
@@ -76,11 +76,10 @@ export class Shipment implements IShipment {
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('DELETE FROM `shipment` WHERE (`id` = ?)', [id]);
-            console.log(rows[0]);
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 return { msg: "Shipment deleted" };
             } else {
-                return { msg: "Shipment failed to deleted" };
+                return { error: "Shipment failed to deleted" };
             }
         } catch (error) {
             return { error: error }
@@ -91,7 +90,7 @@ export class Shipment implements IShipment {
 
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT shipment.id, shipment.status, order_product.order_id, order_product.product_id, order_product.shipment_id, order_product.quantity, order_product.price FROM `shipment` s JOIN `order_product` ON order_product.shipment_id=shipment.id LIMIT ?,?', [start, number]);
+            const rows = await promisePool.execute('SELECT s.id, s.status, u.name, op.order_id, op.product_id, op.shipment_id, op.quantity, op.price FROM `shipment` s JOIN `order_product` op ON op.shipment_id=s.id JOIN `order` o on op.order_id=o.id JOIN user u on o.user_id=u.id LIMIT ?,?', [start, number]);
             return rows[0];
         } catch (error) {
             return { error: error }

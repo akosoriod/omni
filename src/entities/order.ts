@@ -2,7 +2,8 @@ import { IOrder } from "../interfaces/IOrder";
 import { pool } from "../helpers/databaseHelper";
 import { Notification } from "./notification";
 import { INotification } from "../interfaces/INotification";
-import { getResponseValue } from "../helpers/utilsHelper";
+import { getDate, getResponseValue, getRowsValue } from "../helpers/utilsHelper";
+import { Shipment } from "./shipment";
 
 
 const TableName = process.env.TABLE_NAME || "";
@@ -16,16 +17,15 @@ export class Order implements IOrder {
     user_id: number;
     status: string;
     products: product[];
-    total: number ;
     constructor(props: IOrder) {
         this.user_id = props.user_id;
         this.status = props.status;
         this.products = props.products;
-        this.total = 0;
     }
 
     create = async (): Promise<any> => {
         try {
+            let total:number = 0;
             const promisePool = pool.promise();
             const rows = await promisePool.execute('INSERT INTO `order` (`user_id`,`status`) VALUES (?,?)',
                 [
@@ -35,22 +35,31 @@ export class Order implements IOrder {
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 const order_id = await getResponseValue(rows, "insertId")
                 for (let product of this.products) {
+                    const rows2 = await promisePool.execute('SELECT price FROM `product` WHERE (`id` = ?)', [product.id]);
+                    let price:number = await getRowsValue(rows2, 'price')
                     if (product.quantity > 1) {
-                        product.price = product.price * product.quantity;
+                        price = +price * +product.quantity;
                     }
-                    await promisePool.execute('INSERT INTO `order_product` (`order_id`,`product_id`,`quantity`,`price`) VALUES (?,?)',
+
+                    await promisePool.execute('INSERT INTO `order_product` (`order_id`,`product_id`,`quantity`,`price`) VALUES (?,?,?,?)',
                         [
                             order_id,
                             product.id,
                             product.quantity,
-                            product.price,
+                            price,
                         ]);
-                    this.total = this.total + product.price;
+                    total = +total + price;
                 }
-                this.edit(order_id)
+                const ship = new Shipment({status:"New",date:await getDate()});
+                ship.create();
+                await promisePool.execute('UPDATE `order` SET `total` = ? WHERE (`id` = ?)',
+                    [
+                        total,
+                        order_id
+                    ]);
                 return await Order.getOrder(order_id);
             } else {
-                return { msg: "Order failed to create" };
+                return { error: "Order failed to create" };
             }
         } catch (error) {
             return { error: error }
@@ -58,18 +67,35 @@ export class Order implements IOrder {
     }
     edit = async (id: string): Promise<any> => {
         try {
+            let total:number = 0;
             const promisePool = pool.promise();
+            await promisePool.execute('DELETE FROM `order_product` WHERE (`order_id` = ?)', [id]);
+            for (let product of this.products) {
+                const rows2 = await promisePool.execute('SELECT price FROM `product` WHERE (`id` = ?)', [product.id]);
+                let price:number = await getRowsValue(rows2, 'price')
+                if (product.quantity > 1) {
+                    price = +price * +product.quantity;
+                }
+                await promisePool.execute('INSERT INTO `order_product` (`order_id`,`product_id`,`quantity`,`price`) VALUES (?,?,?,?)',
+                    [
+                        id,
+                        product.id,
+                        product.quantity,
+                        price,
+                    ]);
+                total = +total + price;
+            }
             const rows = await promisePool.execute('UPDATE `order` SET `user_id` = ?, `status` = ?, `total` = ? WHERE (`id` = ?)',
                 [
                     this.user_id,
                     this.status,
-                    this.total,
+                    total,
                     id
                 ]);
             if (await getResponseValue(rows, "affectedRows") == 1) {
-                return await Order.getOrder(await getResponseValue(rows, "insertId"));
+                return await Order.getOrder(id);
             } else {
-                return { msg: "Order failed to create" };
+                return { error: "Order failed to create" };
             }
         } catch (error) {
             return { error: error }
@@ -91,7 +117,7 @@ export class Order implements IOrder {
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 return { msg: "Order deleted" };
             } else {
-                return { msg: "Order failed to delete" };
+                return { error: "Order failed to delete" };
             }
         } catch (error) {
             return { error: error }
@@ -102,7 +128,7 @@ export class Order implements IOrder {
 
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT s.id, s.status, op.order_id, op.product_id, op.order_id, op.quantity, op.price FROM `order` s join order_product op on op.order_id=s.id LIMIT ?,?', [start, number]);
+            const rows = await promisePool.execute('SELECT o.id, o.status,u.name, op.order_id, op.product_id, op.order_id, op.quantity, op.price FROM `order` o JOIN order_product op on op.order_id=o.id JOIN user u on o.user_id=u.id LIMIT ?,?', [start, number]);
             return rows[0];
         } catch (error) {
             return { error: error }

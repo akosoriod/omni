@@ -28,7 +28,7 @@ export class Product implements IProduct {
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 return await Product.getProduct(await getResponseValue(rows, "insertId"));
             } else {
-                return { msg: "Product failed to create" };
+                return { error: "Product failed to create" };
             }
         } catch (error) {
             return { error: error }
@@ -38,14 +38,15 @@ export class Product implements IProduct {
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('UPDATE `product` SET `name` = ?, `price` = ? WHERE (`id` = ?)',
-                [this.name,
+                [
+                this.name,
                 this.price,
-                    id
+                id
                 ]);
             if (await getResponseValue(rows, "affectedRows") == 1) {
-                return await Product.getProduct(await getResponseValue(rows, "insertId"));
+                return await Product.getProduct(id);
             } else {
-                return { msg: "Product failed to update" };
+                return { error: "Product failed to update" };
             }
         } catch (error) {
             return { error: error }
@@ -67,7 +68,7 @@ export class Product implements IProduct {
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 return { msg: "Product deleted" };
             } else {
-                return { msg: "Product failed to delete" };
+                return { error: "Product failed to delete" };
             }
         } catch (error) {
             return { error: error }

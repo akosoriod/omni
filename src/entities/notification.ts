@@ -60,7 +60,7 @@ export class Notification implements INotification {
             if(await getResponseValue(rows,"affectedRows") == 1){
                 return {msg:"Notification deleted"};
             }else{
-                return {msg:"Notification failed to delete"};
+                return {error:"Notification failed to delete"};
               }
         } catch (error) {
             return { error: error }

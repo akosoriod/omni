@@ -3,7 +3,7 @@ import { pool } from "../helpers/databaseHelper";
 import { Notification } from "./notification";
 import { INotification } from "../interfaces/INotification";
 import { Shipment } from "./shipment";
-import { getResponseValue } from "../helpers/utilsHelper";
+import { getResponseValue, getRowsValue } from "../helpers/utilsHelper";
 
 
 const TableName = process.env.TABLE_NAME || "";
@@ -39,9 +39,9 @@ export class Payment implements IPayment {
                         this.order_id,
                         payment_id,
                     ]);
-                return await Payment.getPayment(await getResponseValue(rows, "insertId"));
+                return await Payment.getPayment(payment_id);
             } else {
-                return { msg: "Payment failed to create" };
+                return { error: "Payment failed to create" };
             }
         } catch (error) {
             return { error: error }
@@ -57,9 +57,9 @@ export class Payment implements IPayment {
                     id
                 ]);
             if (await getResponseValue(rows, "affectedRows") == 1) {
-                return await Payment.getPayment(await getResponseValue(rows, "insertId"));
+                return await Payment.getPayment(id);
             } else {
-                return { msg: "Payment failed to update" };
+                return { error: "Payment failed to update" };
             }
         } catch (error) {
             return { error: error }
@@ -81,7 +81,7 @@ export class Payment implements IPayment {
             if (await getResponseValue(rows, "affectedRows") == 1) {
                 return { msg: "Payment deleted" };
             } else {
-                return { msg: "Payment failed to delete" };
+                return { error: "Payment failed to delete" };
             }
         } catch (error) {
             return { error: error }
@@ -92,7 +92,7 @@ export class Payment implements IPayment {
 
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT s.id, s.status, op.order_id, op.product_id, op.payment_id, op.quantity, op.price FROM `payment` s join order_product op on op.payment_id=s.id LIMIT ?,?', [start, number]);
+            const rows = await promisePool.execute('SELECT p.id, p.status, p.payment_method, p.amount, op.payment_id, op.order_id FROM `payment` p JOIN order_payment op on op.payment_id=p.id LIMIT ?,?', [start, number]);
             return rows[0];
         } catch (error) {
             return { error: error }
