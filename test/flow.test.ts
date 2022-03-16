@@ -55,7 +55,7 @@ test('001 - FlowTest', async () => {
   order.create();
   const order_id = await getResponseValue(order, "id");
   const promisePool = pool.promise();
-  const totalQuery = await promisePool.execute('SELECT total FROM `order` WHERE (`id` = ?)', [id]);
+  const totalQuery = await promisePool.execute('SELECT total FROM `order` WHERE (`id` = ?)', [order_id]);
   const total:number = await getResponseValue(totalQuery, "total")
    expect(total==Total_oden).toBe(true);
 });
