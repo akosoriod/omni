@@ -2,6 +2,7 @@ import { INotification } from "../interfaces/INotification";
 import { pool } from "../helpers/databaseHelper";
 import { getResponseValue } from "../helpers/utilsHelper";
 
+const DB_PASSWORD = process.env.DB_PASSWORD || "nada entity";
 
 
 export class Notification implements INotification {
@@ -68,7 +69,7 @@ export class Notification implements INotification {
     }
 
     static getNotifications = async (start: string, number: string): Promise<any> => {
-
+        console.log(DB_PASSWORD);
         try {
             const promisePool = pool.promise();
             const rows = await promisePool.execute('SELECT * FROM notification LIMIT ?,?', [start, number]);

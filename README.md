@@ -6,17 +6,15 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Run Local
 
-* `cdk synth Infrastructure-omni-V1-Stack-development --no-staging > template.yaml`   compile typescript to js
-* `sam local start-api`   watch for changes and compile
+* `cdk synth Infrastructure-omni-V1-Stack-development > template.yaml`  build proyect and generate yaml architecture file
+* `sam local start-api`   run proyect in local
 
 ## Run test
 * `npm run test`    perform the jest unit tests
 
 ## Deploy in AWS
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
-
+* `cdk deploy Infrastructure-omni-V1-Stack-development` deploy infrastructure stack to your default AWS account/region
+* `cdk deploy Pipeline-omni-V1-Stack-development`       deploy pipeline stack to your default AWS account/region
 ## ERD diagram
 ![]()
 [![N|Solid](https://lh4.googleusercontent.com/Y4QMBHaIP25xY6CmqSiQxaB-JfCasaLv01tRhqZaabqwNXbkG_Z0CY-zliKqztH4MrrKAE7IcKjn9Uqs0kEW=w1230-h830-rw)](https://lh4.googleusercontent.com/Y4QMBHaIP25xY6CmqSiQxaB-JfCasaLv01tRhqZaabqwNXbkG_Z0CY-zliKqztH4MrrKAE7IcKjn9Uqs0kEW=w1230-h830-rw)
@@ -28,3 +26,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 ## Sequences Diagrams
 ![]()
 [![N|Solid](https://lh4.googleusercontent.com/dAF0x_b_ON2OQt2JJuYjGY2zUtZTqrQt_1_NVCs6u1vvdO6qcyjPWnbh1aMJih5amTQoSk8IHcx6AFaLLpri=w2560-h922-rw)](https://lh4.googleusercontent.com/dAF0x_b_ON2OQt2JJuYjGY2zUtZTqrQt_1_NVCs6u1vvdO6qcyjPWnbh1aMJih5amTQoSk8IHcx6AFaLLpri=w2560-h922-rw)
+
+## Sequences Diagrams
+* SQL file in Docs folder
+* json file collection API requests in Docs folder  [Use ThunderClient VSC](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)

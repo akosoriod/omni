@@ -5,7 +5,6 @@ import { INotification } from "../interfaces/INotification";
 import { getDate, getResponseValue, getRowsValue } from "../helpers/utilsHelper";
 import { Shipment } from "./shipment";
 
-const DB_PASSWORD = process.env.DB_PASSWORD || "nada entity";
 
 interface product {
     id: string,
@@ -23,7 +22,6 @@ export class Order implements IOrder {
     }
 
     create = async (): Promise<any> => {
-        console.log(DB_PASSWORD);
         try {
             let total:number = 0;
             const promisePool = pool.promise();
