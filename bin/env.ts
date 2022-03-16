@@ -48,7 +48,6 @@ const getEnvVariables = (dependentVariables: any) => {
         PIPELINE_NAME,
         API_NAME,
         STACK_NAME,
-        DATA_BASE_ARN_SECRET,
         VPC_ID,
         AVAILABILITY_ZONES,
         PUBLIC_SUBNETS,
