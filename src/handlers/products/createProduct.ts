@@ -4,20 +4,20 @@ import { Product } from "../../entities/product";
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     const { name,price} = JSON.parse(event.body || '{}');
-    const product = new Product({name,price});
-    const res = await product.create();
-   if (res.hasOwnProperty("error")) {
+    const res = new Product({name,price});
+    const product = await res.create();
+   if (product.hasOwnProperty("error")) {
            return getResponse({
            statusCode: 400,
            body: {
-               error: res.error
+               error: product.error
            }
        })
    } else {
        return getResponse({
            statusCode: 201,
            body: {
-               res
+            product
            }
        })
    } 

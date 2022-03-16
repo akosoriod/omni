@@ -11,10 +11,9 @@ export class OmniInfrastructureStack extends cdk.Stack {
         
         // SECRETS
 
-        const {password} = getSecrets(this, env);
-        env.DB_PASSWORD = password;
-        console.log("----------------------------------------------------------------------");
-        console.log(env.DB_PASSWORD);
+        /*const {password} = getSecrets(this, env);
+        env.DB_PASSWORD = password;*/
+
         const defaultVpc = Vpc.fromVpcAttributes(this, 'vpc', {
             vpcId: env.VPC_ID,
             availabilityZones: env.AVAILABILITY_ZONES,

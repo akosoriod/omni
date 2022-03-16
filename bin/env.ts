@@ -31,7 +31,7 @@ const getEnvVariables = (dependentVariables: any) => {
     const PIPELINE_NAME = `Pipeline-${PROJECT_NAME}-V${PROJECT_VERSION}-${PROJECT_ENVIRONMENT}`
     const API_NAME = `${PROJECT_NAME}-V${PROJECT_VERSION}-Api-${PROJECT_ENVIRONMENT}`;
     const STACK_NAME = `${PROJECT_NAME}-V${PROJECT_VERSION}-Stack-${PROJECT_ENVIRONMENT}`;
-    const DATA_BASE_ARN_SECRET = `arn:aws:secretsmanager:us-east-1:322889881075:secret:onmiDB-0amwQE`;//`arn:aws:secretsmanager:${AWS_CURRENT_REGION}:${AWS_ACCOUNT}:secret:onmiDB-0amwQE`;
+    const DATA_BASE_ARN_SECRET = 'arn:aws:secretsmanager:us-east-1:322889881075:secret:onmiDB-0amwQE'; 
     const VPC_ID = `vpc-520f6d2f`;
     const AVAILABILITY_ZONES = [`us-east-1a`,`us-east-1b`,`us-east-1c`,`us-east-1d`,`us-east-1e`,`us-east-1f`];
     const PUBLIC_SUBNETS = [`subnet-2e6e8862`,`subnet-af86d5f0`,`subnet-f78cda91`,`subnet-8f3c60ae`, `subnet-d13da7e0`,`subnet-e2d3dbec`];
