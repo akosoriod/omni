@@ -54,10 +54,14 @@ export class Order implements IOrder {
                 const shipment_id = await getResponseValue(ship, "id");
                 console.log(ship);
                 console.log(shipment_id);
-                await promisePool.execute('UPDATE `order` SET shipment_id = ?,`total` = ? WHERE (`id` = ?)',
+                await promisePool.execute('UPDATE `order_product` SET `total` = ? WHERE (`id` = ?)',
+                    [
+                        total,
+                        order_id
+                    ]);
+                await promisePool.execute('UPDATE `order_product` SET shipment_id = ? WHERE (`order_id` = ?)',
                     [
                         shipment_id,
-                        total,
                         order_id
                     ]);
                 return await Order.getOrder(order_id);
