@@ -2,11 +2,8 @@ import { IShipment } from "../interfaces/IShipment";
 import { pool } from "../helpers/databaseHelper";
 import { Notification } from "./notification";
 import { getResponseValue, getRowsValue } from "../helpers/utilsHelper";
-import { INotification } from "../interfaces/INotification";
 
 
-const TableName = process.env.TABLE_NAME || "";
-const RosterApi = process.env.ROSTER_API || "";
 
 export class Shipment implements IShipment {
     status: string;

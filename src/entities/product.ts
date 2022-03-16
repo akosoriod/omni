@@ -5,9 +5,6 @@ import { INotification } from "../interfaces/INotification";
 import { getResponseValue } from "../helpers/utilsHelper";
 
 
-const TableName = process.env.TABLE_NAME || "";
-const RosterApi = process.env.ROSTER_API || "";
-
 export class Product implements IProduct {
     name: string;
     price: number;

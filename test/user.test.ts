@@ -14,13 +14,13 @@ function sum(a:number, b:number) {
   }
   module.exports = sum;
 
-/*
+
 test('001 - create user', () => {
+  /*  
     const newUser = new User (userInput);
     newUser.create();
 
     const user = User.getUser(newUser[0].id)
     delete user.id;
-    expect((user).toBe(userInput);
+    expect((user).toBe(userInput);*/
 });
-*/

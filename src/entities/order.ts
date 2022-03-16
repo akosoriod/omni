@@ -6,8 +6,6 @@ import { getDate, getResponseValue, getRowsValue } from "../helpers/utilsHelper"
 import { Shipment } from "./shipment";
 
 
-const TableName = process.env.TABLE_NAME || "";
-const RosterApi = process.env.ROSTER_API || "";
 interface product {
     id: string,
     quantity: number,
@@ -51,9 +49,13 @@ export class Order implements IOrder {
                     total = +total + price;
                 }
                 const ship = new Shipment({status:"New",date:await getDate()});
-                ship.create();
-                await promisePool.execute('UPDATE `order` SET `total` = ? WHERE (`id` = ?)',
+                const shipment = ship.create();
+                const shipment_id = await getResponseValue(shipment, "id");
+                console.log(shipment);
+                console.log(shipment_id);
+                await promisePool.execute('UPDATE `order` SET shipment_id = ?,`total` = ? WHERE (`id` = ?)',
                     [
+                        shipment_id,
                         total,
                         order_id
                     ]);

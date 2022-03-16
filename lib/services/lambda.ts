@@ -127,7 +127,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.signinRoute, path: '', method: "POST"},
@@ -142,7 +142,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.logoutRoute, path: '', method: "POST"},
@@ -156,7 +156,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.notificationRoute, path: '', method: "GET"},
@@ -172,7 +172,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.usersRoute, path: '', method: "GET"},
@@ -187,7 +187,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.userRoute, path: '', method: "GET"},
@@ -201,7 +201,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.usersRoute, path: 'new', method: "POST"},
@@ -215,7 +215,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.userRoute, path: '', method: "PUT"},
@@ -229,7 +229,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.userRoute, path: '', method: "DELETE"},
@@ -245,7 +245,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.ordersRoute, path: '', method: "GET"},
@@ -260,7 +260,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.orderRoute, path: '', method: "GET"},
@@ -274,7 +274,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.ordersRoute, path: 'new', method: "POST"},
@@ -288,7 +288,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.orderRoute, path: '', method: "PUT"},
@@ -302,7 +302,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.orderRoute, path: '', method: "DELETE"},
@@ -318,7 +318,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.productsRoute, path: '', method: "GET"},
@@ -333,7 +333,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.productRoute, path: '', method: "GET"},
@@ -347,7 +347,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.productsRoute, path: 'new', method: "POST"},
@@ -361,7 +361,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.productRoute, path: '', method: "PUT"},
@@ -375,7 +375,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.productRoute, path: '', method: "DELETE"},
@@ -391,7 +391,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.shipmentsRoute, path: '', method: "GET"},
@@ -406,7 +406,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.shipmentRoute, path: '', method: "GET"},
@@ -420,7 +420,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.shipmentsRoute, path: 'new', method: "POST"},
@@ -434,7 +434,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.shipmentRoute, path: '', method: "PUT"},
@@ -448,7 +448,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.shipmentRoute, path: '', method: "DELETE"},
@@ -464,7 +464,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.paymentsRoute, path: '', method: "GET"},
@@ -478,7 +478,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.paymentRoute, path: '', method: "GET"},
@@ -492,7 +492,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.paymentsRoute, path: 'new', method: "POST"},
@@ -506,7 +506,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.paymentRoute, path: '', method: "PUT"},
@@ -520,7 +520,7 @@ export const getLambdas = (
         env,
         {
             environment: {
-                TABLE_NAME: env.TABLE_NAME,
+                TABLE_NAME: env.DB_PASSWORD,
             }
         },
         {baseRoute: opt.routes.paymentRoute, path: '', method: "DELETE"},

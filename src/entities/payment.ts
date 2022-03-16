@@ -6,9 +6,6 @@ import { Shipment } from "./shipment";
 import { getResponseValue, getRowsValue } from "../helpers/utilsHelper";
 
 
-const TableName = process.env.TABLE_NAME || "";
-const RosterApi = process.env.ROSTER_API || "";
-
 export class Payment implements IPayment {
     status: string;
     payment_method: string;
