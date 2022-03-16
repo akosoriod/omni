@@ -39,20 +39,16 @@ const Total_oden = product1Input.price*orderInput.products[0].quantity + product
  
 
 test('001 - FlowTest', async () => {
-  const user = new User(userInput);
-  user.create();
+  const user = new User(userInput).create();
   const user_id = await getResponseValue(user, "id");
-  const product1 = new Product(product1Input);
-  product1.create();
+  const product1 = new Product(product1Input).create();
   const product1_id = await getResponseValue(product1, "id");
-  const product2 = new Product(product2Input);
-  product1.create();
+  const product2 = new Product(product2Input).create();
   const product2_id = await getResponseValue(product2, "id");
   orderInput.user_id = user_id
   orderInput.products[0].id = product1_id;
   orderInput.products[1].id = product2_id;
-  const order = new Order(orderInput);
-  order.create();
+  const order = new Order(orderInput).create();
   const order_id = await getResponseValue(order, "id");
   const promisePool = pool.promise();
   const totalQuery = await promisePool.execute('SELECT total FROM `order` WHERE (`id` = ?)', [order_id]);

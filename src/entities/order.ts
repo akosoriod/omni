@@ -50,10 +50,9 @@ export class Order implements IOrder {
                         ]);
                     total = +total + price;
                 }
-                const ship = new Shipment({status:"New",date:await getDate()});
-                const shipment = ship.create();
-                const shipment_id = await getResponseValue(shipment, "id");
-                console.log(shipment);
+                const ship = new Shipment({status:"New",date:await getDate()}).create();
+                const shipment_id = await getResponseValue(ship, "id");
+                console.log(ship);
                 console.log(shipment_id);
                 await promisePool.execute('UPDATE `order` SET shipment_id = ?,`total` = ? WHERE (`id` = ?)',
                     [
