@@ -40,6 +40,7 @@ const Total_oden = product1Input.price*orderInput.products[0].quantity + product
 
 test('001 - FlowTest', async () => {
   const user = new User(userInput).create();
+  console.log(user);
   const user_id = await getResponseValue(user, "id");
   const product1 = new Product(product1Input).create();
   const product1_id = await getResponseValue(product1, "id");
