@@ -30,7 +30,6 @@ export class OmniPipelineStack extends cdk.Stack {
                     'npm ci',
                     'npm run build',
                     'npx cdk synth'
-                   // 'npm run test'
                 ],
             }),
         });

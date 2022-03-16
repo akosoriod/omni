@@ -16,7 +16,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
        })
    } else {
        return getResponse({
-           statusCode: 200,
+           statusCode: 202,
            body: {
                res
            }
