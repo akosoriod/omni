@@ -37,7 +37,7 @@ const orderInput = {
 }
 const Total_oden = product1Input.price*orderInput.products[0].quantity + product2Input.price*orderInput.products[1].quantity;
  
-
+/*
 test('001 - FlowTest', () => {
   const user = new User(userInput).create();
   console.log(user);
@@ -56,3 +56,4 @@ test('001 - FlowTest', () => {
   const total:any =  getResponseValue(totalQuery, "total")
    expect(total==Total_oden).toBe(true);
 });
+*/

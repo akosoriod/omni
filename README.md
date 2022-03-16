@@ -24,3 +24,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 ## Diagram cloud serverless architecture
 ![]()
 [![N|Solid](https://lh4.googleusercontent.com/axqQrnAYUkJg1BssxF49mX2Pu9UX90tgDgYwGiL9q2ET21H0Vh1glVk5C1aqnlyK_zEnRZ0INE6w8zML1C9N=w1366-h610-rw)](https://lh4.googleusercontent.com/axqQrnAYUkJg1BssxF49mX2Pu9UX90tgDgYwGiL9q2ET21H0Vh1glVk5C1aqnlyK_zEnRZ0INE6w8zML1C9N=w1366-h610-rw)
+
+## Sequences Diagrams
+![]()
+[![N|Solid](https://lh4.googleusercontent.com/dAF0x_b_ON2OQt2JJuYjGY2zUtZTqrQt_1_NVCs6u1vvdO6qcyjPWnbh1aMJih5amTQoSk8IHcx6AFaLLpri=w2560-h922-rw)](https://lh4.googleusercontent.com/dAF0x_b_ON2OQt2JJuYjGY2zUtZTqrQt_1_NVCs6u1vvdO6qcyjPWnbh1aMJih5amTQoSk8IHcx6AFaLLpri=w2560-h922-rw)
