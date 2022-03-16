@@ -35,7 +35,7 @@ const orderInput = {
     }
   ]
 }
-
+const order_total= +product1Input.price * orderInput.products[0].quantity + +product2Input.price * orderInput.products[1].quantity
 const url = "https://65b6h28486.execute-api.us-east-1.amazonaws.com/prod";
 
 //BasicSuccess - All data rules correct
@@ -83,7 +83,7 @@ describe('API-USERS-A', () => {
   });
 
   test('003 - Create order and check the flow', async () => {
-/*
+
 
     const responsePost = await request(url).post('/v1/orders/new').send(orderInput);
     //Then the status code returned from server is 201
@@ -93,10 +93,10 @@ describe('API-USERS-A', () => {
     console.log(responsePost.body);
     const responseGet = await request(url).get('/v1/orders/' + responsePost.body.res[0].id); //product
     delete responseGet.body.order[0].id
-
+    
     //comparate jsons
-    expect(orderInput).toEqual(responseGet.body.product[0]);
-*/
+    expect(order_total).toEqual(responseGet.body.order[0].total);
+
   });
 
 });

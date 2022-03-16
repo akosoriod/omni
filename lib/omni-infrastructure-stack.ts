@@ -3,7 +3,6 @@ import {getApiGatewayResources} from "./services/apiGateway";
 import { getIAMPolicy } from './services/iam';
 import {getLambdas} from "./services/lambda";
 import { Vpc,SecurityGroup } from "@aws-cdk/aws-ec2";
-// import {getSecrets} from "./services/secretsManager";
 
 export class OmniInfrastructureStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, env: any, props?: cdk.StackProps) {
