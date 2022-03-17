@@ -17,14 +17,11 @@
 * `cdk deploy Infrastructure-omni-V1-Stack-development` deploy infrastructure stack to your default AWS account/region
 * `cdk deploy Pipeline-omni-V1-Stack-development`       deploy pipeline stack to your default AWS account/region
 ## ERD diagram
-![]()
-[![N|Solid](./docs/image.png](./docs/ERD.png)
+<p align="center"><img src="< align="center"><img src="https://raw.githubusercontent.com/akosoriod/omni/main/docs/ERD.png"></p>
 
 ## Diagram cloud serverless architecture
-![]()
-[![N|Solid](./docs/image.png](./docs/AWS_diagram.png)
+<p align="center"><img src="<p align="center"><img src="https://raw.githubusercontent.com/akosoriod/omni/main/docs/AWS_diagram.png"></p>
 
 ## Sequences Diagrams
-![]()
-[![N|Solid](./docs/image.png)](./docs/Sequences_diagrams.png)
+<p align="center"><img src="<p align="center"><img src="https://raw.githubusercontent.com/akosoriod/omni/main/docs/Sequences_diagrams.png"></p>
 
