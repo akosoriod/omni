@@ -8,10 +8,11 @@ import { getResponseValue, getRowsValue } from "../helpers/utilsHelper";
 export class Shipment implements IShipment {
     status: string;
     date: string;
-
+    order_id: number;
     constructor(props: IShipment) {
         this.status = props.status;
         this.date = props.date;
+        this.order_id = props.order_id;
     }
 
     create = async (): Promise<any> => {
@@ -21,9 +22,16 @@ export class Shipment implements IShipment {
                 [
                     this.status,
                     this.date,
+                    this.order_id
                 ]);
             if (await getResponseValue(rows, "affectedRows") == 1) {
-                return await Shipment.getShipment(await getResponseValue(rows, "insertId"));
+                const insertId = await getResponseValue(rows, "insertId")
+                await promisePool.execute('UPDATE `order_product` SET shipment_id = ? WHERE (`order_id` = ?)',
+                [
+                    insertId,
+                    this.order_id
+                ]);
+                return await Shipment.getShipment(insertId);
             } else {
                 return { error: "Shipment failed to create" };
             }
@@ -40,6 +48,11 @@ export class Shipment implements IShipment {
                     id
                 ]);
             if (await getResponseValue(rows1, "affectedRows") == 1) {
+                await promisePool.execute('UPDATE `order_product` SET shipment_id = ? WHERE (`order_id` = ?)',
+                [
+                    id,
+                    this.order_id
+                ]);
                 if (this.status == "sent") {
                     const rows2 = await promisePool.execute('SELECT o.user_id  FROM `shipment` s join `order_product` op on op.shipment_id=s.id join `order` o on o.id=op.order_id ', [])
                     const userId = await getRowsValue(rows2, 'user_id')
@@ -63,7 +76,7 @@ export class Shipment implements IShipment {
     static getShipment = async (id: string): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT * FROM `shipment` WHERE (`id` = ?)', [id]);
+            const rows = await promisePool.execute('SELECT s.id, s.status, u.name, op.order_id, op.product_id, op.shipment_id, op.quantity, op.price FROM `shipment` s JOIN `order_product` op ON op.shipment_id=s.id JOIN `order` o on op.order_id=o.id JOIN user u on o.user_id=u.id WHERE (`id` = ?)', [id]);
             return rows[0];
         } catch (error) {
             return { error: error }

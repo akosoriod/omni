@@ -5,20 +5,20 @@ import { User } from "../../entities/user";
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     const id: string =  event.pathParameters?.userId || '';
     const { name, email,address,password } = JSON.parse(event.body || '{}');
-    const user = new User({name,email,address,password});
-    const res = await user.edit(id);
-   if (res.hasOwnProperty("error")) {
+    const res = new User({name,email,address,password});
+    const user = await res.edit(id);
+   if (user.hasOwnProperty("error")) {
            return getResponse({
            statusCode: 400,
            body: {
-               error: res.error
+               error: user.error
            }
        })
    } else {
        return getResponse({
            statusCode: 202,
            body: {
-               res
+               user
            }
        })
    } 

@@ -48,18 +48,9 @@ export class Order implements IOrder {
                         ]);
                     total = +total + price;
                 }
-                const ship = new Shipment({status:"New",date:await getDate()}).create();
-                const shipment_id = await getResponseValue(ship, "id");
-                console.log(ship);
-                console.log(shipment_id);
                 await promisePool.execute('UPDATE `order_product` SET `total` = ? WHERE (`id` = ?)',
                     [
                         total,
-                        order_id
-                    ]);
-                await promisePool.execute('UPDATE `order_product` SET shipment_id = ? WHERE (`order_id` = ?)',
-                    [
-                        shipment_id,
                         order_id
                     ]);
                 return await Order.getOrder(order_id);
@@ -109,7 +100,7 @@ export class Order implements IOrder {
     static getOrder = async (id: string): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT * FROM `order` WHERE (`id` = ?)', [id]);
+            const rows = await promisePool.execute('SELECT o.id, o.status,u.name, op.order_id, op.product_id, op.order_id, op.quantity, op.price FROM `order` o JOIN order_product op on op.order_id=o.id JOIN user u on o.user_id=u.id where (`o.id` = ?)', [id]);
             return rows[0];
         } catch (error) {
             return { error: error }

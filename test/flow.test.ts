@@ -93,9 +93,9 @@ describe('API-USERS-A', () => {
     console.log(responsePost.body);
     const responseGet = await request(url).get('/v1/orders/' + responsePost.body.res[0].id); //product
     delete responseGet.body.order[0].id
-    
     //comparate jsons
     expect(order_total).toEqual(responseGet.body.order[0].total);
+    
 
   });
 

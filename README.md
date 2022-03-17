@@ -25,7 +25,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Sequences Diagrams
 ![]()
-[![N|Solid](https://lh4.googleusercontent.com/dAF0x_b_ON2OQt2JJuYjGY2zUtZTqrQt_1_NVCs6u1vvdO6qcyjPWnbh1aMJih5amTQoSk8IHcx6AFaLLpri=w2560-h922-rw)](https://lh4.googleusercontent.com/dAF0x_b_ON2OQt2JJuYjGY2zUtZTqrQt_1_NVCs6u1vvdO6qcyjPWnbh1aMJih5amTQoSk8IHcx6AFaLLpri=w2560-h922-rw)
+[![N|Solid](https://lh3.google.com/u/1/d/1PKbLpwWppPZZxPszsd3j8zP30Ab_1k6S=w2560-h922-iv2)](https://lh3.google.com/u/1/d/1PKbLpwWppPZZxPszsd3j8zP30Ab_1k6S=w2560-h922-iv2)
 
 ## Sequences Diagrams
 * SQL file in Docs folder
