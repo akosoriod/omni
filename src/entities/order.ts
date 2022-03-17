@@ -48,7 +48,7 @@ export class Order implements IOrder {
                         ]);
                     total = +total + price;
                 }
-                await promisePool.execute('UPDATE `order_product` SET `total` = ? WHERE (`id` = ?)',
+                await promisePool.execute('UPDATE `order` SET `total` = ? WHERE (`id` = ?)',
                     [
                         total,
                         order_id
@@ -100,8 +100,10 @@ export class Order implements IOrder {
     static getOrder = async (id: string): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT o.id, o.status,u.name, op.order_id, op.product_id, op.order_id, op.quantity, op.price FROM `order` o JOIN order_product op on op.order_id=o.id JOIN user u on o.user_id=u.id where (`o.id` = ?)', [id]);
-            return rows[0];
+            const rows = await promisePool.execute('SELECT o.id, o.status,u.name,o.total FROM `order` o JOIN order_product op on op.order_id=o.id JOIN user u on o.user_id=u.id where o.id = ?', [id]);
+            const data = JSON.parse(JSON.stringify(rows));
+            data.products = await promisePool.execute('SELECT product_id,shipment_id,quantity,price FROM order_product where o.id = ?', [id]);
+            return data;
         } catch (error) {
             return { error: error }
         }
@@ -124,7 +126,7 @@ export class Order implements IOrder {
 
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT o.id, o.status,u.name, op.order_id, op.product_id, op.order_id, op.quantity, op.price FROM `order` o JOIN order_product op on op.order_id=o.id JOIN user u on o.user_id=u.id LIMIT ?,?', [start, number]);
+            const rows = await promisePool.execute('SELECT o.id, o.status,u.name,o.total FROM `order` o JOIN order_product op on op.order_id=o.id JOIN user u on o.user_id=u.id LIMIT ?,?', [start, number]);
             return rows[0];
         } catch (error) {
             return { error: error }

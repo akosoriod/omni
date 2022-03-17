@@ -65,7 +65,7 @@ export class Payment implements IPayment {
     static getPayment = async (id: string): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT p.id, u.name, p.status, p.payment_method, p.amount, op.payment_id, op.order_id FROM `payment` p JOIN order_payment op on op.payment_id=p.id JOIN `order` o on op.order_id=o.id JOIN user u on o.user_id=u.id WHERE (`id` = ?)', [id]);
+            const rows = await promisePool.execute('SELECT p.id, u.name, p.status, p.payment_method, p.amount, op.payment_id, op.order_id FROM `payment` p JOIN order_payment op on op.payment_id=p.id JOIN `order` o on op.order_id=o.id JOIN user u on o.user_id=u.id WHERE p.id = ?', [id]);
             return rows[0];
         } catch (error) {
             return { error: error }

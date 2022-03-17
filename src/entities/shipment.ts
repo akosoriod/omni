@@ -18,7 +18,7 @@ export class Shipment implements IShipment {
     create = async (): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('INSERT INTO `shipment` (`status`,`date`) VALUES (?,?)',
+            const rows = await promisePool.execute('INSERT INTO `shipment` (`status`,`date`,order_id) VALUES (?,?)',
                 [
                     this.status,
                     this.date,
@@ -76,7 +76,7 @@ export class Shipment implements IShipment {
     static getShipment = async (id: string): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT s.id, s.status, u.name, op.order_id, op.product_id, op.shipment_id, op.quantity, op.price FROM `shipment` s JOIN `order_product` op ON op.shipment_id=s.id JOIN `order` o on op.order_id=o.id JOIN user u on o.user_id=u.id WHERE (`id` = ?)', [id]);
+            const rows = await promisePool.execute('SELECT s.id, s.status, u.name, op.order_id, op.product_id, op.shipment_id, op.quantity, op.price FROM `shipment` s JOIN `order_product` op ON op.shipment_id=s.id JOIN `order` o on op.order_id=o.id JOIN user u on o.user_id=u.id WHERE s.id = ?)', [id]);
             return rows[0];
         } catch (error) {
             return { error: error }
