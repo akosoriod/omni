@@ -163,7 +163,20 @@ export const getLambdas = (
         opt.defaultVpc,
         opt.securityGroup  
     );
-
+    const getNotification = () => getNodeLambdaFunction(
+        stack,
+        "getNotification",
+        "notifications/getNotification.ts",
+        env,
+        {
+            environment: {
+                TABLE_NAME: env.DB_PASSWORD,
+            }
+        },
+        {baseRoute: opt.routes.notificationsRoute, path: '', method: "GET"},
+        opt.defaultVpc,
+        opt.securityGroup  
+    );
 // Users
     const users = () => getNodeLambdaFunction(
         stack,
@@ -532,6 +545,7 @@ const allLambdas: { [key: string]: () => NodejsFunction } = {
         signin,
         logout,
         notifications,
+        getNotification,
         users,
         getUser,
         createUser,

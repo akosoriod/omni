@@ -35,7 +35,8 @@ export class OmniInfrastructureStack extends cdk.Stack {
             paymentRoute,
             shipmentRoute,
             shipmentsRoute,
-            notificationRoute
+            notificationRoute,
+            notificationsRoute
         } = getApiGatewayResources(
             this,
             env,
@@ -61,7 +62,8 @@ export class OmniInfrastructureStack extends cdk.Stack {
                     paymentRoute,
                     shipmentRoute,
                     shipmentsRoute,
-                    notificationRoute,       
+                    notificationRoute,
+                    notificationsRoute       
                 },
                 defaultVpc,
                 securityGroup

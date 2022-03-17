@@ -1,9 +1,10 @@
-# Welcome to your CDK TypeScript project
+# Welcome to my omni Test using CDK TypeScript serverless project
 
-This is a blank project for TypeScript development with CDK.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
+## Sequences Diagrams
+* endpoint_example: https://aqv74ub64f.execute-api.us-east-1.amazonaws.com/prod/v1/orders
+* SQL file in Docs folder
+* json file collection API requests in Docs folder  [Use ThunderClient VSC](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
+* 
 ## Run Local
 
 * `cdk synth Infrastructure-omni-V1-Stack-development > template.yaml`  build proyect and generate yaml architecture file
@@ -17,16 +18,13 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 * `cdk deploy Pipeline-omni-V1-Stack-development`       deploy pipeline stack to your default AWS account/region
 ## ERD diagram
 ![]()
-[![N|Solid](https://lh4.googleusercontent.com/Y4QMBHaIP25xY6CmqSiQxaB-JfCasaLv01tRhqZaabqwNXbkG_Z0CY-zliKqztH4MrrKAE7IcKjn9Uqs0kEW=w1230-h830-rw)](https://lh4.googleusercontent.com/Y4QMBHaIP25xY6CmqSiQxaB-JfCasaLv01tRhqZaabqwNXbkG_Z0CY-zliKqztH4MrrKAE7IcKjn9Uqs0kEW=w1230-h830-rw)
+[![N|Solid](./docs/image.png](./docs/ERD.png)
 
 ## Diagram cloud serverless architecture
 ![]()
-[![N|Solid](https://lh4.googleusercontent.com/axqQrnAYUkJg1BssxF49mX2Pu9UX90tgDgYwGiL9q2ET21H0Vh1glVk5C1aqnlyK_zEnRZ0INE6w8zML1C9N=w1366-h610-rw)](https://lh4.googleusercontent.com/axqQrnAYUkJg1BssxF49mX2Pu9UX90tgDgYwGiL9q2ET21H0Vh1glVk5C1aqnlyK_zEnRZ0INE6w8zML1C9N=w1366-h610-rw)
+[![N|Solid](./docs/image.png](./docs/AWS_diagram.png)
 
 ## Sequences Diagrams
 ![]()
-[![N|Solid](https://lh3.google.com/u/1/d/1PKbLpwWppPZZxPszsd3j8zP30Ab_1k6S=w2560-h922-iv2)](https://lh3.google.com/u/1/d/1PKbLpwWppPZZxPszsd3j8zP30Ab_1k6S=w2560-h922-iv2)
+[![N|Solid](./docs/image.png)](./docs/Sequences_diagrams.png)
 
-## Sequences Diagrams
-* SQL file in Docs folder
-* json file collection API requests in Docs folder  [Use ThunderClient VSC](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)

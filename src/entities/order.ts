@@ -100,9 +100,10 @@ export class Order implements IOrder {
     static getOrder = async (id: string): Promise<any> => {
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT o.id, o.status,u.name,o.total FROM `order` o JOIN order_product op on op.order_id=o.id JOIN user u on o.user_id=u.id where o.id = ?', [id]);
-            const data = JSON.parse(JSON.stringify(rows));
-            data.products = await promisePool.execute('SELECT product_id,shipment_id,quantity,price FROM order_product where o.id = ?', [id]);
+            const rows = await promisePool.execute('SELECT o.id, o.status,u.name,o.total FROM `order` o JOIN user u on o.user_id=u.id where o.id = ?', [id]);
+            let data = JSON.parse(JSON.stringify(rows[0]));
+            const rows2 = await promisePool.execute('SELECT product_id,shipment_id,quantity,price FROM order_product where order_id = ?', [id]);
+            data[0].products = rows2[0]
             return data;
         } catch (error) {
             return { error: error }
@@ -126,7 +127,7 @@ export class Order implements IOrder {
 
         try {
             const promisePool = pool.promise();
-            const rows = await promisePool.execute('SELECT o.id, o.status,u.name,o.total FROM `order` o JOIN order_product op on op.order_id=o.id JOIN user u on o.user_id=u.id LIMIT ?,?', [start, number]);
+            const rows = await promisePool.execute('SELECT o.id, o.status,o.total FROM `order` o LIMIT ?,?', [start, number]);
             return rows[0];
         } catch (error) {
             return { error: error }

@@ -32,7 +32,7 @@ export const getApiGatewayResources = (scope: cdk.Construct, env: any, opt?: any
     const shipmentsRoute = versionRoute.addResource('shipments');
     const shipmentRoute = shipmentsRoute.addResource('{shipmentId}');
     const notificationRoute = versionRoute.addResource('notification');
-
+    const notificationsRoute = versionRoute.addResource('{notificationId}');
 
     return {
         restApi,
@@ -49,6 +49,7 @@ export const getApiGatewayResources = (scope: cdk.Construct, env: any, opt?: any
         paymentRoute,
         shipmentRoute,
         shipmentsRoute,
-        notificationRoute
+        notificationRoute,
+        notificationsRoute
     }
 }
