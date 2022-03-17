@@ -4,7 +4,7 @@
 * endpoint_example: https://aqv74ub64f.execute-api.us-east-1.amazonaws.com/prod/v1/orders
 * SQL file in Docs folder
 * json file collection API requests in Docs folder  [Use ThunderClient VSC](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
-* 
+  
 ## Run Local
 
 * `cdk synth Infrastructure-omni-V1-Stack-development > template.yaml`  build proyect and generate yaml architecture file
